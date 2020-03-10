@@ -1,0 +1,3 @@
+[submodule "trashbot_ai"]
+	path = trashbot_ai
+	url = https://github.com/KeenanMcConkey/trashbot_ai.git
