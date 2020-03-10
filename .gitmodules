@@ -1,3 +1,6 @@
 [submodule "trashbot_ai"]
 	path = trashbot_ai
 	url = https://github.com/KeenanMcConkey/trashbot_ai.git
+[submodule "trashbot_2dnav"]
+	path = trashbot_2dnav
+	url = https://github.com/glynfinck/trashbot_2dnav.git
