@@ -327,5 +327,6 @@ void loop(){
     else{
       write_to_motor(currentright, pwmPin0, INaPin0, INbPin0);
       write_to_motor(currentleft, pwmPin1, INaPin1, INbPin1);
+      delay(1);
     }
 }
