@@ -48,6 +48,9 @@ double MAX_LINEAR = 2.0;
 double MIN_ANGULAR = -1.5;
 double MAX_ANGULAR = 1.5;
 
+double STEP_TIME = 100.0;
+double MIN_MOTOR_SPEED = 75.0;
+
 int pwmPin0 = 5; ///< Arduino pin for motor 1 spin control.
 int pwmPin1 = 6; ///< Arduino pin for motor 2 spin control.
 int INaPin0 = 8; ///< Motor 1 Spin control.
@@ -64,6 +67,11 @@ int servoPin6 = 10;
 
 uint16_t currentServo1 = 0;
 uint16_t currentServo2 = 0;
+int currentright = 0;
+int currentleft = 0;
+double rightdelay = 0;
+double leftdelay = 0;
+double onedelay = 0;
 
 Servo servo1;
 Servo servo2;
@@ -78,6 +86,18 @@ ros::Publisher cmd_vel_debug("cmd_vel_debug", &twist_msg);
 // ================================================================
 // ===                    FUNCTIONS                    ===
 // ================================================================
+double sign(double val){
+  if (val>0){
+    return 1.0;
+  }
+  else if (val<0){
+    return -1.0;
+  }
+  else{
+    return 0.0;
+  }
+}
+
 /**
  * Servos setup function
  * 
@@ -111,9 +131,9 @@ void control_servo1(const std_msgs::UInt16& cmd_msg){
         currentServo1 = cmd_msg.data;
       }
       else{
-        currentServo1 = currentServo1 + sgn(cmd_msg.data - currentServo1)*5;
+        currentServo1 = currentServo1 + sign(cmd_msg.data - currentServo1)*5;
       }
-      servo5.write(CurrentServo1);
+      servo5.write(currentServo1);
     }
 }
 
@@ -123,9 +143,9 @@ void control_servo2(const std_msgs::UInt16& cmd_msg){
         currentServo2 = cmd_msg.data;
       }
       else{
-        currentServo2 = currentServo2 + sgn(cmd_msg.data - currentServo2)*5;
+        currentServo2 = currentServo2 + sign(cmd_msg.data - currentServo2)*5;
       }
-      servo6.write(CurrentServo2);
+      servo6.write(currentServo2);
     }
 }
 
@@ -235,9 +255,9 @@ void control_motor(const geometry_msgs::Twist& cmd_msg){
     int left = int((x - angular) * 50);
 
     // control motors
-    write_to_motor(right, pwmPin0, INaPin0, INbPin0);
-    write_to_motor(left, pwmPin1, INaPin1, INbPin1);
-}
+    currentright = right;
+    currentleft = left;
+  }
 
 
 // ================================================================
@@ -278,6 +298,47 @@ void setup() {
 // ================================================================
 
 void loop(){
-  nh.spinOnce();
-  delay(1);
+    nh.spinOnce();
+    if ((abs(currentright) < MIN_MOTOR_SPEED)&&(abs(currentright)<MIN_MOTOR_SPEED)){
+        rightdelay = STEP_TIME*(double)abs(currentright)/MIN_MOTOR_SPEED;
+        leftdelay = STEP_TIME*(double)abs(currentleft)/MIN_MOTOR_SPEED;
+        write_to_motor((double)sign(currentright)*MIN_MOTOR_SPEED, pwmPin0, INaPin0, INbPin0);
+        write_to_motor((double)sign(currentleft)*MIN_MOTOR_SPEED, pwmPin1, INaPin1, INbPin1);
+        delay(min(rightdelay, leftdelay));
+      if (rightdelay < leftdelay){
+        delay(rightdelay);
+        write_to_motor(0.0, pwmPin0, INaPin0, INbPin0);
+        delay(leftdelay-rightdelay);
+        write_to_motor(0.0, pwmPin1, INaPin1, INbPin1);
+        delay(STEP_TIME-leftdelay);
+      }
+      else{
+        delay(leftdelay);
+        write_to_motor(0.0, pwmPin1, INaPin1, INbPin1);
+        delay(rightdelay-leftdelay);
+        write_to_motor(0.0, pwmPin0, INaPin0, INbPin0);
+        delay(STEP_TIME-rightdelay);
+      }
+    }
+    else if ((abs(currentright) < MIN_MOTOR_SPEED)||(abs(currentright)<MIN_MOTOR_SPEED)){
+      if (abs(currentright) < abs(currentright)){
+        onedelay = STEP_TIME*(double)abs(currentright)/MIN_MOTOR_SPEED;
+        write_to_motor((double)sign(currentright)*MIN_MOTOR_SPEED, pwmPin0, INaPin0, INbPin0);
+        write_to_motor(currentleft, pwmPin1, INaPin1, INbPin1);
+        delay(onedelay);
+        write_to_motor(0.0, pwmPin0, INaPin0, INbPin0);
+      }
+      else{
+        onedelay = STEP_TIME*(double)abs(currentleft)/MIN_MOTOR_SPEED;
+        write_to_motor((double)sign(currentleft)*MIN_MOTOR_SPEED, pwmPin1, INaPin1, INbPin1);
+        write_to_motor(currentright, pwmPin0, INaPin0, INbPin0);
+        delay(onedelay);
+        write_to_motor(0.0, pwmPin1, INaPin1, INbPin1);
+      }
+    }
+    else{
+      write_to_motor(currentright, pwmPin0, INaPin0, INbPin0);
+      write_to_motor(currentleft, pwmPin1, INaPin1, INbPin1);
+      delay(1);
+    }
 }
