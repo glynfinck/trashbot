@@ -48,6 +48,9 @@ double MAX_LINEAR = 2.0;
 double MIN_ANGULAR = -1.5;
 double MAX_ANGULAR = 1.5;
 
+double STEP_TIME = 100.0;
+double MIN_MOTOR_SPEED = 75.0;
+
 int pwmPin0 = 5; ///< Arduino pin for motor 1 spin control.
 int pwmPin1 = 6; ///< Arduino pin for motor 2 spin control.
 int INaPin0 = 8; ///< Motor 1 Spin control.
@@ -64,6 +67,11 @@ int servoPin6 = 10;
 
 uint16_t currentServo1 = 0;
 uint16_t currentServo2 = 0;
+int currentright = 0;
+int currentleft = 0;
+double rightdelay = 0;
+double leftdelay = 0;
+double delay = 0;
 
 Servo servo1;
 Servo servo2;
@@ -235,9 +243,9 @@ void control_motor(const geometry_msgs::Twist& cmd_msg){
     int left = int((x - angular) * 50);
 
     // control motors
-    write_to_motor(right, pwmPin0, INaPin0, INbPin0);
-    write_to_motor(left, pwmPin1, INaPin1, INbPin1);
-}
+    currentright = right;
+    currentleft = left;
+  }
 
 
 // ================================================================
@@ -278,6 +286,46 @@ void setup() {
 // ================================================================
 
 void loop(){
-  nh.spinOnce();
-  delay(1);
+    nh.spinOnce();
+    if ((abs(currentright) < MIN_MOTOR_SPEED)&&((abs(currentright)<MIN_MOTOR_SPEED)){
+        rightdelay = STEP_TIME*(double)abs(currentright)/MIN_MOTOR_SPEED;
+        leftdelay = STEP_TIME*(double)abs(currentleft)/MIN_MOTOR_SPEED;
+        write_to_motor((double)sgn(currentright)*MIN_MOTOR_SPEED, pwmPin0, INaPin0, INbPin0);
+        write_to_motor((double)sgn(currentleft)*MIN_MOTOR_SPEED, pwmPin1, INaPin1, INbPin1);
+        delay(min(rightdelay, leftdelay));
+      if (rightdelay < leftdelay){
+        delay(rightdelay);
+        write_to_motor(0.0, pwmPin0, INaPin0, INbPin0);
+        delay(leftdelay-rightdelay);
+        write_to_motor(0.0, pwmPin1, INaPin1, INbPin1);
+        delay(STEP_TIME-leftdelay);
+      }
+      else{
+        delay(leftdelay);
+        write_to_motor(0.0, pwmPin1, INaPin1, INbPin1);
+        delay(rightdelay-leftdelay);
+        write_to_motor(0.0, pwmPin0, INaPin0, INbPin0);
+        delay(STEP_TIME-rightdelay);
+      }
+    }
+    else if ((abs(currentright) < MIN_MOTOR_SPEED)||((abs(currentright)<MIN_MOTOR_SPEED)){
+      if (abs(currentright) < abs(currentright)){
+        delay = STEP_TIME*(double)abs(currentright)/MIN_MOTOR_SPEED;
+        write_to_motor((double)sgn(currentright)*MIN_MOTOR_SPEED, pwmPin0, INaPin0, INbPin0);
+        write_to_motor(currentleft, pwmPin1, INaPin1, INbPin1);
+        delay(delay);
+        write_to_motor(0.0, pwmPin0, INaPin0, INbPin0);
+      }
+      else{
+        delay = STEP_TIME*(double)abs(currentleft)/MIN_MOTOR_SPEED;
+        write_to_motor((double)sgn(currentleft)*MIN_MOTOR_SPEED, pwmPin1, INaPin1, INbPin1);
+        write_to_motor(currentright, pwmPin0, INaPin0, INbPin0);
+        delay(delay);
+        write_to_motor(0.0, pwmPin1, INaPin1, INbPin1);
+      }
+    }
+    else{
+      write_to_motor(currentright, pwmPin0, INaPin0, INbPin0);
+      write_to_motor(currentleft, pwmPin1, INaPin1, INbPin1);
+    }
 }
