@@ -4,9 +4,9 @@
 
 
 
-**Author: [Marko Bjelonic](https://www.markobjelonic.com), marko.bjelonic@mavt.ethz.ch**
+**Authors: Glyn Finck, Keenan McConkey, Masayoshi Kuwabara, Austin Khorram**
 
-**Affiliation: [Misty West](https://www.mistywest.com/), UBC Vancouver(https://www.ubc.ca/)**
+**Affiliation: [Misty West](https://www.mistywest.com/), [UBC Vancouver](https://www.ubc.ca/)**
 
 ## Installation
 
