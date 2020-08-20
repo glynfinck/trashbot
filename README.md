@@ -6,7 +6,7 @@
 
 **Author: [Marko Bjelonic](https://www.markobjelonic.com), marko.bjelonic@mavt.ethz.ch**
 
-**Affiliation: [Misty West](https://www.mistywest.com/), UBC Vancouver**
+**Affiliation: [Misty West](https://www.mistywest.com/), UBC Vancouver(https://www.ubc.ca/)**
 
 ## Installation
 
