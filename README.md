@@ -80,3 +80,9 @@ This is the main trashbot node for all of the internal logic required for findin
 ## Trashbot Demo Usage
 
 ### Connecting to Trashbot via SSH
+
+
+## Further Readings
+
+[This powerpoint](https://docs.google.com/presentation/d/1dk4SlOPKYHzjGbWbJEiFXe557k3WheMHGRwO65jhtRA/edit?usp=sharing) gives a brief overview of the project
+
