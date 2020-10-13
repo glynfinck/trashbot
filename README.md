@@ -81,9 +81,41 @@ This is the main trashbot node for all of the internal logic required for findin
 
 ### Connecting to Trashbot via SSH
 
+First Terminal (Jetson)
+
+```
+ssh nvidia@<nvidia's IP>
+export ROS_IP=<nvidia's IP>
+roscore
+```
+
+Second Terminal (Jetson)
+
+```
+ssh nvidia@<nvidia's IP>
+export ROS_IP=<nvidia's IP>
+export ROS_MASTER_URI=http://<nvidia's IP>:11311
+roslaunch trashbot_2dnav trashbot_slam.launch
+```
+
+Third Terminal (Jetson)
+
+```
+ssh nvidia@<nvidia's IP>
+export ROS_IP=<nvidia's IP>
+export ROS_MASTER_URI=http://<nvidia's IP>:11311
+roslaunch trashbot_2dnav move_base.launch
+```
+
+Fourth Terminal (Laptop)
+
+```
+export ROS_MASTER_URI=http://<nvidia's IP>:11311
+export ROS_IP=<laptop's IP>
+rosrun rviz rviz
+```
 
 ## Further Readings
 
 * [Powerpoint](https://docs.google.com/presentation/d/1dk4SlOPKYHzjGbWbJEiFXe557k3WheMHGRwO65jhtRA/edit?usp=sharing) giving a brief overview of the project.
 * [Video](https://drive.google.com/file/d/1jnUpos7KLRje8_Hm2XlhJwDA2JV9qPbN/view?usp=sharing) of the SLAM navigation algorithm in action.
-
