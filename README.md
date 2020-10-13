@@ -2,11 +2,12 @@
 
 ## Overview
 
-
-
 **Authors: Glyn Finck, Keenan McConkey, Masayoshi Kuwabara, Austin Khorram**
 
 **Affiliation: [Misty West](https://www.mistywest.com/), [UBC Vancouver](https://www.ubc.ca/)**
+
+* [Powerpoint](https://docs.google.com/presentation/d/1dk4SlOPKYHzjGbWbJEiFXe557k3WheMHGRwO65jhtRA/edit?usp=sharing) giving a brief overview of the project.
+* [Video](https://drive.google.com/file/d/1jnUpos7KLRje8_Hm2XlhJwDA2JV9qPbN/view?usp=sharing) of the SLAM navigation algorithm in action.
 
 ## Installation
 
@@ -114,8 +115,3 @@ export ROS_MASTER_URI=http://<nvidia's IP>:11311
 export ROS_IP=<laptop's IP>
 rosrun rviz rviz
 ```
-
-## Further Readings
-
-* [Powerpoint](https://docs.google.com/presentation/d/1dk4SlOPKYHzjGbWbJEiFXe557k3WheMHGRwO65jhtRA/edit?usp=sharing) giving a brief overview of the project.
-* [Video](https://drive.google.com/file/d/1jnUpos7KLRje8_Hm2XlhJwDA2JV9qPbN/view?usp=sharing) of the SLAM navigation algorithm in action.
