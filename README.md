@@ -84,5 +84,6 @@ This is the main trashbot node for all of the internal logic required for findin
 
 ## Further Readings
 
-[This powerpoint](https://docs.google.com/presentation/d/1dk4SlOPKYHzjGbWbJEiFXe557k3WheMHGRwO65jhtRA/edit?usp=sharing) gives a brief overview of the project
+* [Powerpoint](https://docs.google.com/presentation/d/1dk4SlOPKYHzjGbWbJEiFXe557k3WheMHGRwO65jhtRA/edit?usp=sharing) giving a brief overview of the project.
+* [Video] of the SLAM navigation algorithm in action.
 
