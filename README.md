@@ -8,6 +8,7 @@
 
 * [Powerpoint](https://docs.google.com/presentation/d/1dk4SlOPKYHzjGbWbJEiFXe557k3WheMHGRwO65jhtRA/edit?usp=sharing) giving a brief overview of the project.
 * [Video](https://drive.google.com/file/d/1jnUpos7KLRje8_Hm2XlhJwDA2JV9qPbN/view?usp=sharing) of the SLAM navigation algorithm in action.
+* [Final report](ENPH_479_Final_Report.pdf) submitted at end of project
 
 ## Installation
 
